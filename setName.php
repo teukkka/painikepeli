@@ -65,7 +65,7 @@ function addtodb($data){
 	$result = $conn->query($sql);
 
 	#tarkistetaan onko nimi jo tietokannassa vai ei
-	if($result->fetchColumn() === 1){
+	if($result->fetchColumn() > 1){
 		return "name_exists";
 	}
 
