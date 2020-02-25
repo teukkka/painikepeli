@@ -65,11 +65,11 @@ function addtodb($data){
 	$result = $conn->query($sql);
 
 	#tarkistetaan onko nimi jo tietokannassa vai ei
-	if($result->rowCount() === 1){
+	if($result->fetchColumn() === 1){
 		return "name_exists";
 	}
 
-	elseif ($result->rowCount() === 0) {
+	elseif ($result->fetchColumn() === 0) {
 		#lisätään nimi tietokantaan
 		$sql="INSERT INTO pelaajatiedot VALUES($data,'20')";
 		if ($conn->query($sql) === True) {
