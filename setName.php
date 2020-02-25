@@ -64,13 +64,7 @@ function addtodb($data){
 	$sql= "SELECT nimi FROM pelaajatiedot WHERE $data";
 	$result = $conn->query($sql);
 
-	#tarkistetaan onko nimi jo tietokannassa vai ei
-	if($result->num_rows === 1){
-		return "name_exists";
-	}
-
-	elseif ($result->num_rows === 0) {
-		#lisätään nimi tietokantaan
+	if(empty($result)){
 		$sql="INSERT INTO pelaajatiedot VALUES($receivedname,'20')";
 		if ($conn->query($sql) === True) {
 			return "name_added";
@@ -78,6 +72,11 @@ function addtodb($data){
 		else {
 			return "conn_fail";
 		}
+	}
+
+	#tarkistetaan onko nimi jo tietokannassa vai ei
+	if($result->num_rows === 1){
+		return "name_exists";
 	}
 
 	#jos tietokannasta löytyy nimellä useampi rivi on jotain mennyt pieleen ja nimeä ei voi käyttä
