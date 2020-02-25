@@ -54,12 +54,6 @@ function addtodb($data){
 	#avaa yhteyden tietokantaan
 	$conn = new PDO($dsn);
 
-	#tarkistaa onko yhteys luotu onnistuneesti
-	if ($conn->connect_error) {
-		die("connection failed: " . $conn->connect_error);
-		return "conn_fail";
-	}
-
 	#haetaan nimeä tietokannasta
 	$sql= "SELECT nimi FROM pelaajatiedot WHERE $data";
 	$result = $conn->query($sql);
