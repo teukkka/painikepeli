@@ -54,11 +54,23 @@ function addtodb($data){
 	#avaa yhteyden tietokantaan
 	$conn = new PDO($dsn);
 
+	#tarkistaa onko yhteys luotu onnistuneesti
+	//if ($conn->connect_error) {
+	//	die("connection failed: " . $conn->connect_error);
+	//	return "conn_fail";
+	//}
+
 	#haetaan nimeä tietokannasta
 	$sql= "SELECT nimi FROM pelaajatiedot WHERE $data";
 	$result = $conn->query($sql);
 
-	if(empty($result)){
+	#tarkistetaan onko nimi jo tietokannassa vai ei
+	if($result->rowCount() === 1){
+		return "name_exists";
+	}
+
+	elseif ($result->rowCount() === 0) {
+		#lisätään nimi tietokantaan
 		$sql="INSERT INTO pelaajatiedot VALUES($data,'20')";
 		if ($conn->query($sql) === True) {
 			return "name_added";
@@ -66,11 +78,6 @@ function addtodb($data){
 		else {
 			return "conn_fail";
 		}
-	}
-
-	#tarkistetaan onko nimi jo tietokannassa vai ei
-	if($result->num_rows === 1){
-		return "name_exists";
 	}
 
 	#jos tietokannasta löytyy nimellä useampi rivi on jotain mennyt pieleen ja nimeä ei voi käyttä
