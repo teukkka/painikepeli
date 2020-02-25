@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$response["viesti"]="nimi puuttuu";
 	}
 	else {
-		$receivedname=$data
+		$receivedname=$data;
 		#yritetään lisätä nimi tietokantaan ja luodaan vastaus pelaajalle
 		switch (addtodb($receivedname)){
 			case "name_exists":
@@ -69,8 +69,8 @@ function addtodb($data){
 
 	elseif ($result->num_rows === 0) {
 		#lisätään nimi tietokantaan
-		$sql="INSERT INTO pelaajatiedot VALUES($receivedname,'20')"
-		if (conn->query($sql) === True) {
+		$sql="INSERT INTO pelaajatiedot VALUES($receivedname,'20')";
+		if ($conn->query($sql) === True) {
 			return "name_added";
 		}
 		else {

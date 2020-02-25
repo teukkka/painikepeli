@@ -8,12 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$response["viesti"]="nimi puuttuu";
 	}
 	else {
-		$receivedname=$data
+		$receivedname=$data;
 		#yritetään lisätä nimi tietokantaan ja luodaan vastaus pelaajalle
 		$response=button_pushed($receivedname);
 		}
 	
-	}
 	#lähettää vastauksen pelaajalle
 	echo json_encode($response);
 
@@ -55,8 +54,8 @@ function button_pushed($name){
 
 	#tarkistetaan onko nimi jo tietokannassa vai ei
 	if($result->num_rows === 1){
-		$laskurinarvo= $result->fetch_assoc()["luku"]
-		elseif (($laskurinarvo)%500==0){
+		$laskurinarvo= $result->fetch_assoc()["luku"];
+		if (($laskurinarvo)%500==0){
 			$add_points=249;
 			if (update_players_points($conn,$add_points,$name)){
 				$sql="COMMIT TRANSACTION";
