@@ -2,12 +2,13 @@
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	#tarkastaa onko nimi alkio olemassa(tarkistetaan virhetilanteiden käsittelyn vuoksi) 
-	if (empty($_SERVER["name"])) {
+	$data = file_get_contents('php://input');
+	if (empty($data)) {
 		$response["error"]=True;
-		$response["msg"]="anna nimi";
+		$response["viesti"]="nimi puuttuu";
 	}
 	else {
-		$receivedname=$_SERVER['name']
+		$receivedname=$data
 		#yritetään lisätä nimi tietokantaan ja luodaan vastaus pelaajalle
 		switch (addtodb($receivedname)){
 			case "name_exists":
