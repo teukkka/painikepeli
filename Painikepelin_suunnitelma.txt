@@ -1,0 +1,57 @@
+Painikepelin suunnitelma
+###################################################################################
+
+Tarvitaan tietokanta johon tallentaa pelaajakohtaiset pisteet ja laskurin arvo
+
+Tarvitaan käyttöliittymä jossa pelaajalla on nappi jota painaa ja joka tulostaa pelaajalle hänen pistemääränsä sekä kuinka monen painalluksen päässä seuraava palkinto on.
+
+Tarvitaan ohjelma joka käsittelee pelaajan valintoja "painaa nappia" tai aloittaa alusta kun pistesaldo on 0. ohjelman tulee pitää huolta siitä voiko pelaaja painaa painiketta, saako pelaaja pisteitä painalluksesta, paljonko pelaajalla on pisteitä ja tietysti että laskurin arvoa kasvatetaan joka painalluksella.
+
+Tietoturvan kannalta olisi parasta että kaikki toiminnallisuus tapahtuu palvelimella ja mobiilisovellus toimii käyttöliittymänä jolla on lupa lähettää https pyyntöjä palvelimelle joka käsittelee pyynnöt ja vastaa pyyntöihin. Tietokanta voidaan täten määritellä vastaanottavaksi pyyntöjä ainoastaan samalta palvelimelta tietokannan kanssa.
+
+##################################################################################
+
+
+Tietokannan suunnitelma
+#######################
+
+Valitaan käytettäväksi MySQL relaatiotietokantaa
+Tietokantaan tulee luoda kaksi taulua joilla on seuraavat indeksit
+
+Laskuri:
+laskurin arvo (integer)
+
+Pelaajatiedot:
+pelaajan nimi(primary key)
+pelaajan pisteet(integer)
+
+Palvelimen toiminnallisuuden suunnitelma
+########################################
+
+Valitaan käytettäväksi PHP:ta palvelinpuolen toteutukseen
+Laravel frameworkiä voisi käyttää, mutta koska toteutettava peli vaatii vain muutaman ominaisuuden ja käyttöliittymänä toimii mobiilisovellus koen muutaman php tiedoston toimivan hyvin.
+
+Tarvittavat toiminnallisuudet:
+
+Lisätä uusi pelaaja tietokantaan ja palauttaa pelaajalle pistemäärä
+
+Tarjota mobiilisovellukselle pelaajan pistemäärä mobiilisovelluksen pyytäessä.
+
+Pelaajan painaessa painiketta tarkistaa voitto, päivittää pelaajan pisteet, korottaa laskurin arvoa ja palauttaa tieto pelaajalle pistemäärästä
+
+Pelaajan pisteiden ollessa 0 mahdollistaa pelin uudelleen aloitus.
+
+Mobiilisovelluksen suunnitelma
+###########################
+Sovellus toteutetaan androidille javalla
+
+Kun sovellus käynnistyy pelaajalta pyydetään nimi joka yksilöi pelaajan. Sovellus tarkastaa palvelimelta ettei nimi ole käytössä. Nimeä ei ole mahdollista muuttaa mutta sovellus tallentaa käytetyn nimen eli sovelluksen voi sulkea ja jatkaa pelaamista. Jos pelaaja poistaa sovelluksen  tai pyyhkii pelin tallennustiedot ei pelaaja enää voi pelata kyseisellä nimellä. Ideana on estää uusien pelaajien käyttämästä toisten pelaajien nimimerkkejä ja saada heidän pisteitä itselleen kun painikepelissä ei käytetä kirjautumista.
+
+Sovelluksessa on näkyvillä pelaajan pistemäärä, kun pelaaja painaa painiketta lähettää sovellus https pyynnön palvelimelle joka sisältää pelaajan nimen. pisteet päivittyy palvelimen vastauksen mukaisesti ja pelaaja näkee tarvittavien painallusten määrän seuraavaan palkintoon
+
+Jos pelaajalla on 0 pistettä voi pelaaja päättää aloittaa pelaamisen alusta
+
+
+
+
+
