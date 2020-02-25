@@ -65,7 +65,7 @@ function addtodb($data){
 	$result = $conn->query($sql);
 
 	if(empty($result)){
-		$sql="INSERT INTO pelaajatiedot VALUES($receivedname,'20')";
+		$sql="INSERT INTO pelaajatiedot VALUES($data,'20')";
 		if ($conn->query($sql) === True) {
 			return "name_added";
 		}
