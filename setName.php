@@ -61,23 +61,21 @@ function addtodb($data){
 	//}
 
 	#haetaan nimeä tietokannasta
-	$sql= "SELECT nimi FROM pelaajatiedot WHERE $data";
-	$result = pg_query($conn, $sql);
-
-	#tarkistetaan onko nimi jo tietokannassa vai ei
-	if(pg_num_rows($result) === 1){
-		return "name_exists";
-	}
-
-	elseif (pg_num_rows($result) === 0) {
+	$sql= "SELECT nimi FROM pelaajatiedot WHERE $1";
+	if(!$result = pg_query_params($conn, $sql, array($data)){
 		#lisätään nimi tietokantaan
-		$sql="INSERT INTO pelaajatiedot VALUES($data,'20')";
-		if (pg_query($sql) === True) {
+		$sql="INSERT INTO pelaajatiedot VALUES($1,'20')";
+		if (pg_query_params($conn, $sql, array($data)) === True) {
 			return "name_added";
 		}
 		else {
 			return "conn_fail";
 		}
+	}
+
+	#tarkistetaan onko nimi jo tietokannassa vai ei
+	if(pg_num_rows($result) === 1){
+		return "name_exists";
 	}
 
 	#jos tietokannasta löytyy nimellä useampi rivi on jotain mennyt pieleen ja nimeä ei voi käyttä
