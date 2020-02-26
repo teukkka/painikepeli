@@ -65,11 +65,11 @@ function addtodb($data){
 	$result = pg_query($conn, $sql);
 
 	#tarkistetaan onko nimi jo tietokannassa vai ei
-	if(pg_num_rows($result) == 1){
+	if(pg_num_rows($result) === 1){
 		return "name_exists";
 	}
 
-	elseif ($result->fetchColumn() === 0) {
+	elseif (pg_num_rows($result) === 0) {
 		#lisätään nimi tietokantaan
 		$sql="INSERT INTO pelaajatiedot VALUES($data,'20')";
 		if (pg_query($sql) === True) {
