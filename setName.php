@@ -50,9 +50,9 @@ function addtodb($data){
 	$password = "bf8d7fc5d6b13c63061b6f0a9d3fe240d16379d26d4d946a3a48dd23b54b8120";
 	$dbname = "dfnl9iq6jfq97g";
 
-	$dsn = "pgsql:host=$server;port=5432;dbname=$dbname;user=$username;password=$password";
+	$dsn = "host=$server;port=5432;dbname=$dbname;user=$username;password=$password";
 	#avaa yhteyden tietokantaan
-	$conn = new PDO($dsn);
+	$conn = new pg_connect($dsn);
 
 	#tarkistaa onko yhteys luotu onnistuneesti
 	//if ($conn->connect_error) {
@@ -62,17 +62,17 @@ function addtodb($data){
 
 	#haetaan nimeä tietokannasta
 	$sql= "SELECT nimi FROM pelaajatiedot WHERE $data";
-	$result = $conn->query($sql);
+	$result = pg_query($conn, $sql);
 
 	#tarkistetaan onko nimi jo tietokannassa vai ei
-	if($result->fetchColumn() > 1){
+	if(pg_num_rows($result) == 1){
 		return "name_exists";
 	}
 
 	elseif ($result->fetchColumn() === 0) {
 		#lisätään nimi tietokantaan
 		$sql="INSERT INTO pelaajatiedot VALUES($data,'20')";
-		if ($conn->query($sql) === True) {
+		if (pg_query($sql) === True) {
 			return "name_added";
 		}
 		else {
