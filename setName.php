@@ -52,7 +52,7 @@ function addtodb($data){
 
 	$dsn = "host=$server;port=5432;dbname=$dbname;user=$username;password=$password";
 	#avaa yhteyden tietokantaan
-	$conn = new pg_connect($dsn);
+	$conn = pg_connect($dsn);
 
 	#tarkistaa onko yhteys luotu onnistuneesti
 	//if ($conn->connect_error) {
