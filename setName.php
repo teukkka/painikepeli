@@ -50,9 +50,9 @@ function addtodb($data){
 	$password = "bf8d7fc5d6b13c63061b6f0a9d3fe240d16379d26d4d946a3a48dd23b54b8120";
 	$dbname = "dfnl9iq6jfq97g";
 
-	$dsn = "host=$server;port=5432;dbname=$dbname;user=$username;password=$password";
+	$conn_string = "host=$server port=5432 dbname=$dbname user=$username password=$password";
 	#avaa yhteyden tietokantaan
-	$conn = pg_connect($dsn);
+	$conn = pg_connect($conn_string);
 
 	#tarkistaa onko yhteys luotu onnistuneesti
 	//if ($conn->connect_error) {
