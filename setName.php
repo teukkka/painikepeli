@@ -62,7 +62,7 @@ function addtodb($data){
 
 	#haetaan nimeä tietokannasta
 	$sql= "SELECT nimi FROM pelaajatiedot WHERE $1";
-	if(!$result = pg_query_params($conn, $sql, array($data)){
+	if(!$result = pg_query_params($conn, $sql, array($data))){
 		#lisätään nimi tietokantaan
 		$sql="INSERT INTO pelaajatiedot VALUES($1,'20')";
 		if (pg_query_params($conn, $sql, array($data)) === True) {
