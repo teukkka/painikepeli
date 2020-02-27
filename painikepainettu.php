@@ -65,6 +65,7 @@ function button_pushed($name){
 				$response["pisteet"]=$pisteet+$add_points;
 				$response["voittoon"]=next_win($laskurinarvo);
 				$response["viesti"]="voitit 250 pistettä";
+				$response["voitto"]=250;
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
@@ -80,6 +81,7 @@ function button_pushed($name){
 				$response["pisteet"]=$pisteet+$add_points;
 				$response["voittoon"]=next_win($laskurinarvo);
 				$response["viesti"]="voitit 40 pistettä";
+				$response["voitto"]=40;
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
@@ -97,6 +99,7 @@ function button_pushed($name){
 				$response["pisteet"]=$pisteet+$add_points;
 				$response["voittoon"]=next_win($laskurinarvo);
 				$response["viesti"]="voitit 5 pistettä";
+				$response["voitto"]=5;
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
