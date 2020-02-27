@@ -30,9 +30,11 @@ function button_pushed($name){
 	$conn = pg_connect($conn_string);
 
 	if ($pisteet=get_player_points($conn,$name)==0){
-		$response["error"]=True;
-		$response["pisteet"]=$pisteet;
-		$conn->close();
+		$response["error"]=false;
+		$response["pisteet"]=20;
+		$response["voittoon"]=0;
+
+		pg_close($conn);
 		return $response;
 	}
 
