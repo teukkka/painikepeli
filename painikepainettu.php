@@ -41,7 +41,7 @@ function button_pushed($name){
 	#tarkistetaan oliko pelaajan pisteet 0. eli toisin sanoen aloittiko pelaaja uuden pelin
 	#ja palautetaan laadittu vastaus lähetettäväksi käyttöliittymälle
 	if ($pisteet==0){
-		create_response($pisteet, 0, $laskurinarvo, 250);
+		$response=create_response($pisteet, 0, $laskurinarvo, 250);
 
 		pg_close($conn);
 		return $response;
@@ -82,6 +82,7 @@ function button_pushed($name){
 			else{
 				$sql="ROLLBACK TRANSACTION";
 				pg_query($conn, $sql);
+				$response["error"]=True;
 			}
 		}
 		elseif(($laskurinarvo)%50==0){
@@ -186,6 +187,7 @@ function create_response($pisteet, $add_points, $laskurinarvo, $voitto){
 	$response["pisteet"]=$pisteet+$add_points;
 	$response["voittoon"]=next_win($laskurinarvo);
 	$response["voitto"]=$voitto;
+	return $response;
 }
 
 ?>
