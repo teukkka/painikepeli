@@ -160,7 +160,7 @@ function get_player_points($conn,$name){
 
 function next_win($laskurinarvo){
 	$win1=500-($laskurinarvo%500);
-	$win2=50-($laskurinarvo%100);
+	$win2=50-($laskurinarvo%50);
 	$win3=10-($laskurinarvo%10);
 	return min($win1,$win2,$win3);
 }
