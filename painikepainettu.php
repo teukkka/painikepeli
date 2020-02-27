@@ -29,9 +29,11 @@ function button_pushed($name){
 	$conn_string = "host=$server port=5432 dbname=$dbname user=$username password=$password";
 	$conn = pg_connect($conn_string);
 
-	if ($pisteet=get_player_points($conn,$name)==0){
+	$pisteet=get_player_points($conn,$name);
+
+	if ($pisteet==0){
 		$response["error"]=false;
-		$response["pisteet"]=$pisteet;
+		$response["pisteet"]=20;
 		$response["voittoon"]=0;
 
 		pg_close($conn);
@@ -152,7 +154,6 @@ function get_player_points($conn,$name){
 	if ($pisteet<1){
 		$sql= "UPDATE pelaajatiedot SET pisteet = 20 WHERE nimi=$1";
 		$result=pg_query_params($conn, $sql, array($name));
-		return 20;
 	}
 	return $pisteet;
 }
