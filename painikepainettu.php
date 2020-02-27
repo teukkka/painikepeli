@@ -26,7 +26,8 @@ function button_pushed($name){
 	$dbname = "dfnl9iq6jfq97g";
 
 	#avaa yhteyden tietokantaan
-	$conn = new mysqli($server, $username, $password, $dbname);
+	$conn_string = "host=$server port=5432 dbname=$dbname user=$username password=$password";
+	$conn = pg_connect($conn_string);
 
 	#tarkistaa onko yhteys luotu onnistuneesti
 	if ($conn->connect_error) {
@@ -42,24 +43,24 @@ function button_pushed($name){
 	}
 
 	$sql="BEGIN TRANSACTION; LOCK TABLE laskuri IN ACCESS EXCLUSIVE MODE;";
-	$conn->query($sql);
+	pg_query($conn, $sql);
 	#haetaan nimeä tietokannasta
 	$sql= "UPDATE laskuri SET luku = luku + 1 WHERE laskuri_id='1'";
-	$conn->query($sql);
+	pg_query($conn, $sql);
 
 	$sql= "SELECT luku FROM laskuri WHERE laskuri_id='1'";
-	$result = $conn->query($sql);
+	$result = pg_query($conn, $sql);
 
 
 
 	#tarkistetaan onko nimi jo tietokannassa vai ei
-	if($result->num_rows === 1){
+	if(pg_num_rows($result) === 1){
 		$laskurinarvo= $result->fetch_assoc()["luku"];
 		if (($laskurinarvo)%500==0){
 			$add_points=249;
-			if (update_players_points($conn,$add_points,$name)){
+			if (update_players_points($conn, $add_points, $name)){
 				$sql="COMMIT TRANSACTION";
-				$conn->query($sql);
+				pg_query($conn, $sql);
 				$response["error"]=False;
 				$response["pisteet"]=$pisteet+$add_points;
 				$response["voittoon"]=next_win($laskurinarvo);
@@ -67,14 +68,14 @@ function button_pushed($name){
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
-				$conn->query($sql);
+				pg_query($conn, $sql);
 			}
 		}
 		elseif(($laskurinarvo)%50==0){
 			$add_points=39;
-			if (update_players_points($conn,$add_points,$name)){
+			if (update_players_points($conn, $add_points, $name)){
 				$sql="COMMIT TRANSACTION";
-				$conn->query($sql);
+				pg_query($conn, $sql);
 				$response["error"]=False;
 				$response["pisteet"]=$pisteet+$add_points;
 				$response["voittoon"]=next_win($laskurinarvo);
@@ -82,7 +83,7 @@ function button_pushed($name){
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
-				$conn->query($sql);
+				pg_query($conn, $sql);
 				$response["error"]=True;
 			}
 
@@ -91,7 +92,7 @@ function button_pushed($name){
 			$add_points=4;
 			if (update_players_points($conn,$add_points,$name)){
 				$sql="COMMIT TRANSACTION";
-				$conn->query($sql);
+				pg_query($conn, $sql);
 				$response["error"]=False;
 				$response["pisteet"]=$pisteet+$add_points;
 				$response["voittoon"]=next_win($laskurinarvo);
@@ -99,7 +100,7 @@ function button_pushed($name){
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
-				$conn->query($sql);
+				pg_query($conn, $sql);
 				$response["error"]=True;
 			}
 
@@ -108,7 +109,7 @@ function button_pushed($name){
 			$add_points=-1;
 			if (update_players_points($conn,$add_points,$name)){
 				$sql="COMMIT TRANSACTION";
-				$conn->query($sql);
+				pg_query($conn, $sql);
 				$response["error"]=False;
 				$response["pisteet"]=$pisteet+$add_points;
 				$response["voittoon"]=next_win($laskurinarvo);
@@ -116,7 +117,7 @@ function button_pushed($name){
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
-				$conn->query($sql);
+				pg_query($conn, $sql);
 				$response["error"]=True;
 			}
 		}
@@ -134,8 +135,8 @@ function button_pushed($name){
 }
 
 function update_players_points($conn,$add_points,$name){
-	$sql= "UPDATE pelaajatiedot SET pisteet = pisteet + {$add_points} WHERE nimi={$name}";
-	if ($conn->query($sql) === True) {
+	$sql= "UPDATE pelaajatiedot SET pisteet = pisteet + $1 WHERE nimi=$2";
+	if (pg_query_params($conn, $sql, array($add_points, $name))) {
 		return True;
 	}
 	else{
@@ -145,8 +146,8 @@ function update_players_points($conn,$add_points,$name){
 }
 
 function get_player_points($conn,$name){
-	$sql="SELECT pisteet FROM pelaajatiedot WHERE nimi={$name}";
-	$result=$conn->query($sql);
+	$sql="SELECT pisteet FROM pelaajatiedot WHERE nimi=$1";
+	$result=pg_query_params($conn, $sql, array($name));
 	$pisteet=$result->fetch_assoc()["pisteet"];
 	return $pisteet;
 }
