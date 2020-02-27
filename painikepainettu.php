@@ -31,7 +31,7 @@ function button_pushed($name){
 
 	if ($pisteet=get_player_points($conn,$name)==0){
 		$response["error"]=false;
-		$response["pisteet"]=20;
+		$response["pisteet"]=$pisteet;
 		$response["voittoon"]=0;
 
 		pg_close($conn);
@@ -128,8 +128,8 @@ function button_pushed($name){
 
 	#jos tietokannasta löytyy nimellä useampi rivi on jotain mennyt pieleen ja nimeä ei voi käyttä'. Tämä ei kuitenkaan tulisi olla mahdollista sillä laskuri_id on primary key jotka ovat yksilöllisiä.
 	else{
-		$conn->close();
-		return False;
+		pg_close($conn);
+		return $response["error"]=False;
 	}
 
 }
@@ -149,6 +149,11 @@ function get_player_points($conn,$name){
 	$sql="SELECT pisteet FROM pelaajatiedot WHERE nimi=$1";
 	$result=pg_query_params($conn, $sql, array($name));
 	$pisteet=pg_fetch_assoc($result)["pisteet"];
+	if ($pisteet<1){
+		$sql= "UPDATE pelaajatiedot SET pisteet = 20 WHERE nimi=$1";
+		$result=pg_query_params($conn, $sql, array($name));
+		return 20;
+	}
 	return $pisteet;
 }
 
