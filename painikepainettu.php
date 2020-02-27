@@ -77,7 +77,7 @@ function button_pushed($name){
 			if (update_players_points($conn, $add_points, $name)){
 				$sql="COMMIT TRANSACTION";
 				pg_query($conn, $sql);
-				create_response($pisteet, $add_points, $laskurinarvo, 250);
+				$response=create_response($pisteet, $add_points, $laskurinarvo, 250);
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
@@ -89,7 +89,7 @@ function button_pushed($name){
 			if (update_players_points($conn, $add_points, $name)){
 				$sql="COMMIT TRANSACTION";
 				pg_query($conn, $sql);
-				create_response($pisteet, $add_points, $laskurinarvo, 40);
+				$response=create_response($pisteet, $add_points, $laskurinarvo, 40);
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
@@ -103,7 +103,7 @@ function button_pushed($name){
 			if (update_players_points($conn,$add_points,$name)){
 				$sql="COMMIT TRANSACTION";
 				pg_query($conn, $sql);
-				create_response($pisteet, $add_points, $laskurinarvo, 5);
+				$response=create_response($pisteet, $add_points, $laskurinarvo, 5);
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
@@ -117,7 +117,7 @@ function button_pushed($name){
 			if (update_players_points($conn,$add_points,$name)){
 				$sql="COMMIT TRANSACTION";
 				pg_query($conn, $sql);
-				create_response($pisteet, $add_points, $laskurinarvo, 0);
+				$response=create_response($pisteet, $add_points, $laskurinarvo, 0);
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
