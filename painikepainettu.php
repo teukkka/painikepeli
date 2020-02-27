@@ -119,7 +119,7 @@ function button_pushed($name){
 				$response["error"]=True;
 			}
 		}
-	$conn->close();
+	pg_close($conn);
 	return $response;
 	}
 
