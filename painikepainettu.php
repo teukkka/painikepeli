@@ -29,12 +29,6 @@ function button_pushed($name){
 	$conn_string = "host=$server port=5432 dbname=$dbname user=$username password=$password";
 	$conn = pg_connect($conn_string);
 
-	#tarkistaa onko yhteys luotu onnistuneesti
-	if ($conn->connect_error) {
-		die("connection failed: " . $conn->connect_error);
-		return "conn_fail";
-	}
-
 	if ($pisteet=get_player_points($conn,$name)==0){
 		$response["error"]=True;
 		$response["pisteet"]=$pisteet;
@@ -55,7 +49,7 @@ function button_pushed($name){
 
 	#tarkistetaan onko nimi jo tietokannassa vai ei
 	if(pg_num_rows($result) === 1){
-		$laskurinarvo= $result->fetch_assoc()["luku"];
+		$laskurinarvo= pg_fetch_assoc($result)["luku"];
 		if (($laskurinarvo)%500==0){
 			$add_points=249;
 			if (update_players_points($conn, $add_points, $name)){
@@ -152,7 +146,7 @@ function update_players_points($conn,$add_points,$name){
 function get_player_points($conn,$name){
 	$sql="SELECT pisteet FROM pelaajatiedot WHERE nimi=$1";
 	$result=pg_query_params($conn, $sql, array($name));
-	$pisteet=$result->fetch_assoc()["pisteet"];
+	$pisteet=pg_fetch_assoc($result)["pisteet"];
 	return $pisteet;
 }
 
