@@ -117,6 +117,7 @@ function button_pushed($name){
 				$response["pisteet"]=$pisteet+$add_points;
 				$response["voittoon"]=next_win($laskurinarvo);
 				$response["viesti"]="ei voittoa";
+				$response["voitto"]=0;
 			}
 			else{
 				$sql="ROLLBACK TRANSACTION";
