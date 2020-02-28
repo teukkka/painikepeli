@@ -41,7 +41,7 @@ function button_pushed($name){
 	#tarkistetaan oliko pelaajan pisteet 0. eli toisin sanoen aloittiko pelaaja uuden pelin
 	#ja palautetaan laadittu vastaus lähetettäväksi käyttöliittymälle
 	if ($pisteet==0){
-		$response=create_response($pisteet, 0, $laskurinarvo, 250);
+		$response=create_response($pisteet, 0, $laskurinarvo, 0);
 
 		pg_close($conn);
 		return $response;
