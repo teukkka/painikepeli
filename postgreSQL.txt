@@ -1,0 +1,25 @@
+//luodaan laskuri taulu
+CREATE TABLE laskuri(
+	laskuri_id integer PRIMARY KEY,
+	luku integer NOT NULL
+);
+
+//luodaan pelaajatideot taulu
+CREATE TABLE pelaajatiedot(
+	nimi VARCHAR (30) PRIMARY KEY,
+	pisteet integer NOT NULL
+);
+
+//luo laskuri arvolla 0
+INSERT INTO laskuri VALUES('1','0'); 
+
+//tarkistetaan laskuri
+SELECT * FROM laskuri;
+
+//testataan luoda pelaaja pisteillä 20
+INSERT INTO pelaajatiedot VALUES ('Teemu','20');
+
+// tarkistetaan taulu
+SELECT * FROM pelaajatiedot;
+
+//pienellä muokkauksella näitä lausekkeita voidaan käyttää kun lisätään tai haetaan tietoja tietokannasta
