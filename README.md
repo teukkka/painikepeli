@@ -18,7 +18,9 @@ index.php on ainoastaan tyhjä tiedosto herokua varten.
 
 testi.php on tiedosto jota on käytetty debugaamiseen.
 
-Painikepelin_suunnitelma.txt on alkuperäinen suunnitelma jonka pohjalta kokonaisuutta lähdettiin rakentamaan
+Painikepelin_suunnitelma.txt on alkuperäinen suunnitelma jonka pohjalta kokonaisuutta lähdettiin rakentamaan.
+
+postgreSQL.txt pitää sisällään komentoja joilla luotiin tietokannan taulut.
 
 Pelin käyttöliittymä on toteutettu mobiilisovelluksena joka löytyy täältä:
 [Painikepeli mobiilisovellus](https://github.com/teukkka/android_painikepeli)
