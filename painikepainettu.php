@@ -85,7 +85,7 @@ function button_pushed($name){
 				$response["error"]=True;
 			}
 		}
-		elseif(($laskurinarvo)%50==0){
+		elseif(($laskurinarvo)%100==0){
 			$add_points=39;
 			if (update_players_points($conn, $add_points, $name)){
 				$sql="COMMIT TRANSACTION";
@@ -174,7 +174,7 @@ function update_players_points($conn,$add_points,$name){
 #ja helpottaa arvojen muuttamista
 function next_win($laskurinarvo){
 	$win1=500-($laskurinarvo%500);
-	$win2=50-($laskurinarvo%50);
+	$win2=100-($laskurinarvo%100);
 	$win3=10-($laskurinarvo%10);
 	return min($win1,$win2,$win3);
 }
